@@ -1,9 +1,15 @@
+@font-face {
+  font-family: 'geomanist-regular';
+  src: local('geomanist-regular'), url("./fonts/geomanist-regular.ttf") format('truetype');
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
 html,
 body {
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
 a {
@@ -12,5 +18,25 @@ a {
 }
 
 * {
+  font-family: 'geomanist-regular';
   box-sizing: border-box;
+}
+
+
+img{border-radius: 4px;}
+.bold{font-weight: bold;}
+.flex{display: flex;}
+.flex-center-y{display: flex;align-items: center;}
+.w100{width: 100%;}
+
+/*
+  Dimensions
+*/
+.m-0{margin: 0;}
+.mt0{margin-top: 0!important;}
+
+.reservation-content{
+  padding: 10px;
+  max-width: 1200px;
+  margin: 0 auto;
 }
