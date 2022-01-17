@@ -7,10 +7,14 @@ import { Button, Checkbox, FormControlLabel, Stack, TextField, Typography } from
 import DesktopDatePicker from '@mui/lab/DesktopDatePicker';
 import DateAdapter from '@mui/lab/AdapterDateFns';
 import nlLocale from 'date-fns/locale/nl';
-import { LocalizationProvider } from '@mui/lab';
+import { LocalizationProvider, StaticDatePicker } from '@mui/lab';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
-import styles from '../../styles/Reservation.module.css'
+import styles from '../../styles/Reservation.module.css';
+import { formatDateAndTime } from '../../helpers/commonFunctions';
+import ModalBase from '../../components/ModalBase'
+import ToggleButton from '@mui/material/ToggleButton';
+import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 
 const localeMap = {
   nl: nlLocale,
@@ -27,8 +31,20 @@ const Description: NextPage = () => {
 
   const [ArrivalDate, setArrivalDate] = useState<Date | null>(null);
   const [DepartureDate, setDepartureDate] = useState<Date | null>(null);
+  const [MinDepartureDate, setMinDepartureDate] = useState<Date | null>(null);
   const [locale, setLocale] = useState('nl');
   const [PitchSelected, setPitchSelected] = useState<string>("0");
+  const [alignment, setAlignment] = useState('Arrival');
+  const [ModalOpen, setModalOpen] = useState<boolean>(false);
+  const [ModalArrivalDate, setModalArrivalDate] = useState<Date | null>(null);
+  const [ModalDepartureDate, setModalDepartureDate] = useState<Date | null>(null);
+
+  const handleChangeModalSelection = (
+    event: React.MouseEvent<HTMLElement>,
+    newAlignment: string,
+  ) => {
+    setAlignment(newAlignment);
+  };
 
   const handleChange = (event: SelectChangeEvent) => {
     setPitchSelected(event.target.value);
@@ -45,12 +61,24 @@ const Description: NextPage = () => {
 
   useEffect(() => {
     const desc = document.getElementById('description');
-    if (desc) {
-      desc.innerHTML = location.description
-    }
+    if (desc) { desc.innerHTML = location.description; }
 
     setArrivalDate(new Date());
+
   }, []);
+
+  useEffect(() => {
+    if (ArrivalDate) {
+      const date = new Date(ArrivalDate);
+      date.setDate(date.getDate() + 1);
+      setMinDepartureDate(date);
+    }
+    setModalArrivalDate(ArrivalDate);
+  }, [ArrivalDate]);
+
+  useEffect(() => {
+    setModalDepartureDate(DepartureDate);
+  }, [DepartureDate]);
 
 
   return (
@@ -63,7 +91,7 @@ const Description: NextPage = () => {
 
       <Stack direction={"row"} spacing={1} mt={1} className={styles.reservationContent} >
 
-        <div className="reservation-left">
+        <div className={styles.reservationLeft}>
           <Typography variant='h4' gutterBottom className={styles.reservationTitle}>Camping {location.locationTitle1}</Typography>
           <Image src="/assets/images/camping2.jpg" alt="Camping1" width={900} height={455} />
 
@@ -80,6 +108,7 @@ const Description: NextPage = () => {
                 alignItems="flex-start"
                 spacing={2}
                 mt={3}
+                mb={2}
                 className="basic-costs">
 
                 <Typography variant='h6' className='bold nanum-title'>Good to know</Typography>
@@ -135,6 +164,7 @@ const Description: NextPage = () => {
                       value={ArrivalDate}
                       onChange={newValue => setArrivalDate(newValue)}
                       renderInput={(params) => <TextField {...params} />}
+                      readOnly
                     />
                   </div>
                   <div className="departure">
@@ -145,140 +175,219 @@ const Description: NextPage = () => {
                       value={DepartureDate}
                       onChange={newValue => setDepartureDate(newValue)}
                       renderInput={(params) => <TextField {...params} />}
+                      minDate={MinDepartureDate}
                     />
                   </div>
                 </Stack>
               </LocalizationProvider>
 
-              <Stack
-                direction="row"
-                justifyContent="space-between"
-                alignItems="center"
-                spacing={2}
-                mb={2}
-                mt={2}
-                className='w100'
-              >
-                <Typography variant='h6' className='bold'>Total</Typography>
-                <Typography variant='h6' className='bold'>€ 165,00</Typography>
-              </Stack>
-              <Typography variant='subtitle1' className='bold'>Basic costs</Typography>
+              {DepartureDate &&
+                <Stack
+                  direction="row"
+                  justifyContent="space-between"
+                  alignItems="center"
+                  spacing={2}
+                  mb={2}
+                  mt={2}
+                  className='w100'
+                >
+                  <Typography variant='h6' className='bold'>Total</Typography>
+                  <Typography variant='h6' className='bold'>€ 165,00</Typography>
+                </Stack>
+              }
+              {DepartureDate ? <Typography variant='subtitle1' className='bold'>Basic costs</Typography> :
+                <Typography variant='subtitle1' style={{ marginTop: 10 }} className='bold'>Add a date to check prices!</Typography>
+              }
             </div>
 
 
-
-            <Stack
-              direction="column"
-              justifyContent="flex-start"
-              alignItems="flex-start"
-              spacing={2}
-              mt={3}
-              className={styles.basicCosts}>
-
+            {DepartureDate &&
               <Stack
-                direction="row"
-                justifyContent="space-between"
-                alignItems="center"
+                direction="column"
+                justifyContent="flex-start"
+                alignItems="flex-start"
                 spacing={2}
-                className='w100'
-              >
-                <Typography variant='subtitle2'>4 nights</Typography>
-                <Typography variant='subtitle2'>€ 80,00</Typography>
-              </Stack>
-              <Typography variant='subtitle2' gutterBottom color={'#c2c2c2'} className='mt0'>Inclusief extra voertuig, internet/wifi, toilet, honden</Typography>
+                mt={3}
+                className={styles.basicCosts}>
 
-              <Typography variant='subtitle2' className='bold'>Number of persons</Typography>
-              <Stack
-                direction="row"
-                alignItems="center"
-                spacing={0}
-                className='mt0 numberOfPersons'
-              >
-                <Button style={{ fontSize: 55, color: '#222', lineHeight: 1, padding: 5, width: 70, height: 60 }} variant='text'>-</Button>
-                <TextField style={{ width: 60, textAlign: 'center' }} id="outlined-basic" variant="outlined" size="small" value={2} />
-                <Button style={{ fontSize: 35, color: '#222', lineHeight: 1, padding: 5, width: 70, height: 60 }} variant='text'>+</Button>
-              </Stack>
+                <Stack
+                  direction="row"
+                  justifyContent="space-between"
+                  alignItems="center"
+                  spacing={2}
+                  className='w100'
+                >
+                  <Typography variant='subtitle2'>4 nights</Typography>
+                  <Typography variant='subtitle2'>€ 80,00</Typography>
+                </Stack>
+                <Typography variant='subtitle2' gutterBottom color={'#c2c2c2'} className='mt0'>Inclusief extra voertuig, internet/wifi, toilet, honden</Typography>
 
-              <Typography variant='subtitle2' className='bold'>Paid amenities</Typography>
+                <Typography variant='subtitle2' className='bold'>Number of persons</Typography>
+                <Stack
+                  direction="row"
+                  alignItems="center"
+                  spacing={0}
+                  className='mt0 numberOfPersons'
+                >
+                  <Button style={{ fontSize: 55, color: '#222', lineHeight: 1, padding: 5, width: 70, height: 60 }} variant='text'>-</Button>
+                  <TextField style={{ width: 60, textAlign: 'center' }} id="outlined-basic" variant="outlined" size="small" value={2} />
+                  <Button style={{ fontSize: 35, color: '#222', lineHeight: 1, padding: 5, width: 70, height: 60 }} variant='text'>+</Button>
+                </Stack>
+
+                <Typography variant='subtitle2' className='bold'>Paid amenities</Typography>
+                <Stack
+                  direction="row"
+                  justifyContent="space-between"
+                  alignItems="center"
+                  spacing={2}
+                  className='w100 mt0'
+                >
+                  <FormControlLabel
+                    value="end"
+                    control={<Checkbox defaultChecked color="success" />}
+                    label="Extra Vehicle"
+                    labelPlacement="end"
+                  />
+                  <Typography variant='subtitle2'>€ 80,00</Typography>
+                </Stack>
+                <Stack
+                  direction="row"
+                  justifyContent="space-between"
+                  alignItems="center"
+                  spacing={2}
+                  className='w100 mt0'
+                >
+                  <FormControlLabel
+                    value="end"
+                    control={<Checkbox defaultChecked color="success" />}
+                    label="Internet/Wifi"
+                    labelPlacement="end"
+                  />
+                  <Typography variant='subtitle2'>€ 4,00</Typography>
+                </Stack>
+
+                <Typography variant='subtitle2' className='bold' mb={2}>Pitch map</Typography>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  className="w100 text-center"
+                  value={PitchSelected}
+                  onChange={handleChange}
+                >
+                  <MenuItem value={"0"}>------ Select Pitch ------</MenuItem>
+                  <MenuItem value={"1"}>01 Spot at the water €5</MenuItem>
+                  <MenuItem value={"2"}>02 Spot in the corner with lots of privacy €2</MenuItem>
+                </Select>
+                <img src="/assets/images/campsite-map.jpg" alt="Pitchmap" width={'100%'} />
+
+              </Stack>}
+
+            {DepartureDate &&
               <Stack
-                direction="row"
-                justifyContent="space-between"
-                alignItems="center"
+                direction="column"
+                justifyContent="flex-start"
+                alignItems="flex-start"
                 spacing={2}
-                className='w100 mt0'
-              >
-                <FormControlLabel
-                  value="end"
-                  control={<Checkbox defaultChecked color="success" />}
-                  label="Extra Vehicle"
-                  labelPlacement="end"
-                />
-                <Typography variant='subtitle2'>€ 80,00</Typography>
-              </Stack>
-              <Stack
-                direction="row"
-                justifyContent="space-between"
-                alignItems="center"
-                spacing={2}
-                className='w100 mt0'
-              >
-                <FormControlLabel
-                  value="end"
-                  control={<Checkbox defaultChecked color="success" />}
-                  label="Internet/Wifi"
-                  labelPlacement="end"
-                />
-                <Typography variant='subtitle2'>€ 4,00</Typography>
-              </Stack>
+                mt={3}
+                className={styles.detailsRightBottom}>
 
-              <Typography variant='subtitle2' className='bold' mb={2}>Pitch map</Typography>
-              {/* <Image src="/assets/images/campsite-map.jpg" alt="PitchMap" width={900} height={455} /> */}
-              <img src="/assets/images/campsite-map.jpg" alt="[itchmap" width={'100%'} />
-
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                className="w100 text-center"
-                value={PitchSelected}
-                onChange={handleChange}
-              >
-                <MenuItem value={"0"}>------ Select Pitch ------</MenuItem>
-                <MenuItem value={"1"}>01 Spot at the water €5</MenuItem>
-                <MenuItem value={"2"}>02 Spot in the corner with lots of privacy €2</MenuItem>
-              </Select>
-
-            </Stack>
-
-
-            <Stack
-              direction="column"
-              justifyContent="flex-start"
-              alignItems="flex-start"
-              spacing={2}
-              mt={3}
-              className={styles.detailsRightBottom}>
-
-              <Button style={{ marginBottom: 5, marginTop: 5 }} color={'success'} variant='contained' className='w100'>Login to make a reservation</Button>
-              <Typography variant='subtitle2' gutterBottom color={'#c2c2c2'} className='mt0'>Your application will be submitted immediately and will have to be confirmed by the location.</Typography>
-            </Stack>
+                <Button style={{ marginBottom: 5, marginTop: 5 }} color={'success'} variant='contained' className='w100'>Make Reservation</Button>
+                <Typography variant='subtitle2' gutterBottom color={'#c2c2c2'} className='mt0'>Your application will be submitted immediately and will have to be confirmed by the location.</Typography>
+                <div className={styles.mobileFooterHeightSpace}></div>
+              </Stack>}
 
           </div>
         </div>
 
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+          className={styles.reservationFooterMobile}
+        >
+          {DepartureDate ?
+            <Stack
+              direction="column"
+              justifyContent="flex-start"
+              alignItems="flex-start"
+              spacing={1}>
+              <Stack
+                direction="row"
+                alignItems="center"
+                spacing={2}>
+                <Typography variant='h6' className='bold'>Total</Typography>
+                <Typography variant='h6' className='bold'>€ 165,00</Typography>
+              </Stack>
+              <Stack
+                direction="row"
+                alignItems="center"
+                className='w100'
+              >
+                <Typography variant='subtitle2' className='bold'>{formatDateAndTime(ArrivalDate)}</Typography>&nbsp;{"-"}&nbsp;
+                <Typography variant='subtitle2' className='bold'>{formatDateAndTime(DepartureDate)}</Typography>
+              </Stack>
+            </Stack>
+            :
+            <div className={styles.datesMobile}><Typography variant='subtitle1'>Add departure date for prices</Typography></div>
+          }
+          <div className={styles.mobileReserveActions}>
+            {DepartureDate ?
+              <Button color={'success'} variant='contained'>Make Reservation</Button> :
+              <Button color={'success'} variant='contained' onClick={() => setModalOpen(true)}>Add date</Button>
+            }
+          </div>
+        </Stack>
+
       </Stack>
 
-      {/* <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <span className={styles.logo}>
-            <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-          </span>
-        </a>
-      </footer> */}
+      <ModalBase
+        open={ModalOpen}
+      >
+        <div className="modal-inner">
+          <ToggleButtonGroup
+            style={{ width: "100%", justifyContent: "center" }}
+            color="primary"
+            value={alignment}
+            exclusive
+            onChange={handleChangeModalSelection}
+          >
+            <ToggleButton value="Arrival">Arrival</ToggleButton>
+            <ToggleButton value="Departure">Departure</ToggleButton>
+          </ToggleButtonGroup>
+          <LocalizationProvider dateAdapter={DateAdapter} locale={localeMap[locale]}>
+            {alignment === "Arrival" ?
+              <StaticDatePicker
+                displayStaticWrapperAs="desktop"
+                value={ModalArrivalDate}
+                onChange={newValue => setModalArrivalDate(newValue)}
+                renderInput={(params) => <TextField {...params} />}
+              />
+              :
+              <StaticDatePicker
+                displayStaticWrapperAs="desktop"
+                value={ModalDepartureDate}
+                onChange={newValue => setModalDepartureDate(newValue)}
+                renderInput={(params) => <TextField {...params} />}
+              />
+            }
+          </LocalizationProvider>
+          <Stack
+            direction="row"
+            alignItems="end"
+            spacing={1}>
+            <Button onClick={() => setModalOpen(false)}>Cancel</Button>
+            <Button
+              onClick={() => {
+                setArrivalDate(ModalArrivalDate);
+                setDepartureDate(ModalDepartureDate);
+                setModalOpen(false);
+              }}
+              color={'success'}
+              variant='contained'
+              disabled={!ModalArrivalDate || !ModalDepartureDate}>Apply</Button>
+          </Stack>
+        </div>
+      </ModalBase>
 
       <style jsx>
         {`
@@ -315,7 +424,7 @@ const Description: NextPage = () => {
           .free-amenities{flex-wrap:wrap; width:100%;}
         `}
       </style>
-    </div>
+    </div >
   )
 }
 
