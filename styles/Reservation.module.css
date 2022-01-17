@@ -1,0 +1,40 @@
+.reservationContainer{
+  height: 99%;
+}
+
+.reservationContent {
+  height:100%;
+  display: flex;
+  padding: 10px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.reservationRight{
+  height: 100%;
+}
+
+.reservationTitle{
+  font-weight: 700;
+  height: 42px;
+}
+
+.locationDetailsRight{
+  height: 90%; /* fallback if needed */
+  height: calc(100% - 42px);
+}
+
+.datesAndTotal{
+  height: 155px;
+}
+
+.detailsRightBottom{
+  height:80px
+}
+
+.basicCosts{
+  height: 85%;
+  height:calc(92% - 235px);
+  overflow: auto;
+  padding-right: 5px;
+}

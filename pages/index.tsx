@@ -5,7 +5,7 @@ import styles from '../styles/Home.module.css'
 
 const Home: NextPage = () => {
   return (
-    <div className={styles.container}>
+    <div id="mainContainer" className={styles.container}>
       <Head>
         <title>Reservation module</title>
         <meta name="description" content="Reservation module" />
