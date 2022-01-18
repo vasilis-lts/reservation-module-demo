@@ -32,7 +32,7 @@
 .formActions{
   display: flex;
   align-items: center;
-  margin-top: 10px;
+  margin-top: 20px;
   justify-content: space-between;
 }
 .userformTitle{text-align: center;}

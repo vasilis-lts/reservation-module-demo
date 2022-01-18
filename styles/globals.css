@@ -91,6 +91,7 @@ button{text-transform: initial!important;}
 .phone-number-input label{display: none;}
 .phone-number-input .MuiInput-root{margin-top:0;}
 .phone-number-input{
-  padding: 16.5px 14px;
+  padding: 10px 14px;
   border: 1px solid rgba(0,0,0,0.23);
 }
+/* .MuiOutlinedInput-input{padding: 14px!important;} */
