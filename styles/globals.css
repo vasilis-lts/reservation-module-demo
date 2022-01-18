@@ -71,6 +71,7 @@ img{border-radius: 4px;}
 .flex-center-y{display: flex;align-items: center;}
 .text-center{text-align: center;}
 .w100{width: 100%;}
+button{text-transform: initial!important;}
 
 /*
   Dimensions
@@ -78,10 +79,18 @@ img{border-radius: 4px;}
 .m-0{margin: 0;}
 .mt0{margin-top: 0!important;}
 
-
+/*
+  SPECIFICS
+*/
 .nanum-title{
   font-family: 'NanumPenScript-Regular';
   color: var(--green);
 }
-
 .locationLabels{width: 49%;margin-top: 10px;}
+
+.phone-number-input label{display: none;}
+.phone-number-input .MuiInput-root{margin-top:0;}
+.phone-number-input{
+  padding: 16.5px 14px;
+  border: 1px solid rgba(0,0,0,0.23);
+}

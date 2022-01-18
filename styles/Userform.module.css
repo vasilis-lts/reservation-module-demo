@@ -1,0 +1,50 @@
+.Userform{
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.Userform form{
+  border: 1px solid #e2e2e2;
+  border-radius: 8px;
+  background-color: #fff;
+  box-shadow: 0 8px 16px 0 rgb(0 0 0 / 2%);
+  padding: 6px 24px 24px 24px;
+}
+
+.formOuter{
+  width: 100%;
+  max-width: 450px;
+  padding: 0 20px;
+}
+
+.formOuter label{
+  margin: 5px 0;
+  margin-top: 12px;
+  color: #0d0d0d;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: 18px;
+}
+
+.formActions{
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  justify-content: space-between;
+}
+.userformTitle{text-align: center;}
+
+@media (max-width: 767px) {
+  .Userform{
+    align-items: flex-start;
+    padding-top: 20px;
+  }
+  .formActions{
+    flex-direction: column;
+  }
+  .formActions button{width: 100%;}
+  .formActions>*{margin-bottom: 10px;}
+}
