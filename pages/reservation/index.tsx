@@ -26,7 +26,7 @@ const maskMap = {
 
 
 const Description: NextPage = () => {
-  const router = useRouter()
+  const router = useRouter();
   const { locationid } = router.query;
 
   const [ArrivalDate, setArrivalDate] = useState<Date | null>(null);
@@ -291,7 +291,9 @@ const Description: NextPage = () => {
                 mt={3}
                 className={styles.detailsRightBottom}>
 
-                <Button style={{ marginBottom: 5, marginTop: 5 }} color={'success'} variant='contained' className='w100'>Make Reservation</Button>
+                <Button
+                  onClick={() => router.push("/userform")}
+                  style={{ marginBottom: 5, marginTop: 5 }} color={'success'} variant='contained' className='w100'>Make Reservation</Button>
                 <Typography variant='subtitle2' gutterBottom color={'#c2c2c2'} className='mt0'>Your application will be submitted immediately and will have to be confirmed by the location.</Typography>
                 <div className={styles.mobileFooterHeightSpace}></div>
               </Stack>}
@@ -332,7 +334,7 @@ const Description: NextPage = () => {
           }
           <div className={styles.mobileReserveActions}>
             {DepartureDate ?
-              <Button color={'success'} variant='contained'>Make Reservation</Button> :
+              <Button color={'success'} variant='contained' onClick={() => router.push("/userform")}>Make Reservation</Button> :
               <Button color={'success'} variant='contained' onClick={() => setModalOpen(true)}>Add date</Button>
             }
           </div>
@@ -340,6 +342,7 @@ const Description: NextPage = () => {
 
       </Stack>
 
+      {/* MOBILE DATES MODAL */}
       <ModalBase
         open={ModalOpen}
       >
