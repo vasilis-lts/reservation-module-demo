@@ -9,9 +9,8 @@
 }
 
 .qrCode svg{
-  margin: 25px auto!important;
+  margin: 25px auto 0 auto!important;
 }
-.qrCodeImages{margin-top: -20px!important;}
 .qrCodeImages img{
   width: 50%;
 }
