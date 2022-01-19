@@ -6,6 +6,17 @@ const theme = createTheme({
   typography: {
     fontFamily: 'geomanist-regular, Arial',
   },
+  palette: {
+    success: {
+      main: "#46ad48",
+      contrastText: "#fff"
+    },
+    warning: {
+      main: "#e05556",
+      contrastText: "#fff"
+    },
+
+  }
 });
 
 function MyApp({ Component, pageProps }: AppProps) {

@@ -3,8 +3,10 @@ import { Formik, Form } from "formik";
 import { Grid, TextField, Button, Typography, Stack } from "@mui/material";
 import MuiPhoneNumber from "material-ui-phone-number";
 import { useState } from 'react';
+import { useRouter } from 'next/router';
 
 export default function UserForm() {
+  const router = useRouter();
 
   const [DefaultValues, setDefaultValues] = useState({
     username: "",
@@ -37,7 +39,7 @@ export default function UserForm() {
           mb={2}
           className={styles.userformTitle}>
           <Typography variant='h5' className='bold nanum-title'>That's nice!</Typography>
-          <Typography variant='h5' className='bold mt0'>Register your info to complete reservation</Typography>
+          <Typography variant='h5' className='bold mt0'>Enter your contact details to complete your reservation</Typography>
         </Stack>
         <Formik
           initialValues={DefaultValues}
@@ -94,6 +96,12 @@ export default function UserForm() {
               </Grid>
               <div className={styles.formActions}>
                 <Button
+                  onClick={() => router.push("/pricing-overview")}
+                  color={'success'}
+                  variant='contained'
+                  fullWidth
+                >Submit</Button>
+                {/* <Button
                   // onClick={() => router.push("/userform")}
                   color={'success'}
                   variant='contained'
@@ -102,7 +110,7 @@ export default function UserForm() {
                 <Button
                   // onClick={() => router.push("/userform")}
                   color={'info'}
-                >Login</Button>
+                >Login</Button> */}
               </div>
             </Form>
           )}

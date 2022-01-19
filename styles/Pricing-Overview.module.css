@@ -1,0 +1,60 @@
+.pricingOverview{
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding-top: 20px;
+}
+
+.pricingOverviewContent{
+  padding: 20px 15px;
+  display: flex;
+}
+
+.pricingOverviewTitle{font-weight: 700;}
+
+.pricingOverviewContentLeft{
+  width: 30%;
+}
+
+.pricingOverviewContentRight{
+  margin-left: 2%;
+  width: 68%;
+}
+
+.pricingContentTitle{
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+
+@media (max-width: 1024px) {
+  .pricingOverview{
+    margin: 0;
+    max-width: 767px;
+    margin: 0 auto;
+  }
+
+  .pricingOverviewContent{
+    flex-direction: column;
+  }
+
+  .pricingOverviewContentLeft{
+    width: 100%;
+  }
+
+  .pricingOverviewContentRight{
+    margin-left: 0;
+    width: 100%;
+  }
+
+}
+
+@media (max-width: 768px) {
+.pricingOverview{
+    margin: 0;
+    width: 100%;
+  }
+.pricingOverviewTitle{padding-left: 10px;}
+}
