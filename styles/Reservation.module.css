@@ -12,6 +12,8 @@
 
 .reservationLeft{
   padding-right: 10px;
+    width: 70%;
+
 }
 
 .reservationRight{
@@ -76,6 +78,7 @@
   }
   .reservationLeft{
     padding-right: 0px;
+    width: 100%;
   }
   .reservationRight{
     width: auto;

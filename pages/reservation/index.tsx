@@ -16,6 +16,21 @@ import ModalBase from '../../components/ModalBase'
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 
+
+// Import Swiper React components
+import { Swiper, SwiperSlide } from 'swiper/react';
+// Import Swiper styles
+import 'swiper/css';
+import "swiper/css/navigation"
+
+// import Swiper core and required modules
+import SwiperCore, {
+  Navigation
+} from 'swiper';
+
+// install Swiper modules
+SwiperCore.use([Navigation]);
+
 const localeMap = {
   nl: nlLocale,
 };
@@ -89,11 +104,16 @@ const Description: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Stack direction={"row"} spacing={1} mt={1} className={styles.reservationContent} >
+      <Stack direction={"row"} spacing={1} mt={1} className={styles.reservationContent}>
 
         <div className={styles.reservationLeft}>
           <Typography variant='h4' gutterBottom className={styles.reservationTitle}>Camping {location.locationTitle1}</Typography>
-          <Image src="/assets/images/camping2.jpg" alt="Camping1" width={900} height={455} />
+
+          <Swiper navigation={true} style={{ width: '100%' }} loop={true} className="mySwiper">
+            <SwiperSlide> <Image src="/assets/images/camp-demo2.jpg" alt="Camping2" width={900} height={500} /></SwiperSlide>
+            <SwiperSlide> <Image src="/assets/images/camp-demo1.jpg" alt="Camping1" width={900} height={500} /></SwiperSlide>
+            <SwiperSlide> <Image src="/assets/images/camp-demo3.jpg" alt="Camping3" width={900} height={500} /></SwiperSlide>
+          </Swiper>
 
           <div className="location-details">
             <div className="location-details-left">
