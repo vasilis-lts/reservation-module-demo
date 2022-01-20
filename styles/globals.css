@@ -21,6 +21,8 @@
   --gray: #999;
   --green: #46ad48;
   --white: #ffffff;
+
+  --headerHeight: 80px;
 }
 
 *::-webkit-scrollbar-track
@@ -93,6 +95,11 @@ button{text-transform: initial!important;}
 /*
   Specifics
 */
+#nav{height:var(--headerHeight);}
+.content-with-header{
+  margin-top:var(--headerHeight)!important ;
+}
+
 .nanum-title{
   font-family: 'NanumPenScript-Regular';
   color: var(--green);

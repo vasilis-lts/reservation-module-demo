@@ -1,6 +1,7 @@
 import '../styles/globals.css';
 import type { AppProps } from 'next/app';
 import { ThemeProvider, createTheme } from '@mui/material';
+import { appWithTranslation } from 'next-i18next';
 
 const theme = createTheme({
   typography: {
@@ -27,4 +28,4 @@ function MyApp({ Component, pageProps }: AppProps) {
   )
 }
 
-export default MyApp
+export default appWithTranslation(MyApp);

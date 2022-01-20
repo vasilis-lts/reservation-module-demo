@@ -15,7 +15,10 @@ import { formatDateAndTime } from '../../helpers/commonFunctions';
 import ModalBase from '../../components/ModalBase'
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
+import CNav from '../../components/Nav/Nav';
 
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { useTranslation } from 'next-i18next';
 
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -38,9 +41,11 @@ const localeMap = {
 const maskMap = {
   nl: '__/__/____',
 };
-
+import { i18n } from 'next-i18next'
 
 const Description: NextPage = () => {
+  const { t } = useTranslation('common');
+
   const router = useRouter();
   const { locationid } = router.query;
 
@@ -65,8 +70,6 @@ const Description: NextPage = () => {
     setPitchSelected(event.target.value);
   };
 
-
-
   const location = {
     locationId: 1,
     locationTitle1: "Nijkerkerveen",
@@ -79,7 +82,12 @@ const Description: NextPage = () => {
     if (desc) { desc.innerHTML = location.description; }
 
     setArrivalDate(new Date());
-
+    console.log(router);
+    setTimeout(() => {
+      if (i18n) {
+        i18n.changeLanguage('en');
+      }
+    }, 3000);
   }, []);
 
   useEffect(() => {
@@ -102,9 +110,11 @@ const Description: NextPage = () => {
         <title>Reservation module</title>
         <meta name="description" content="Reservation module" />
         <link rel="icon" href="/favicon.ico" />
+        <link rel="stylesheet" href="/static/CamperLinkNav.module.css" />
       </Head>
+      <CNav />
 
-      <Stack direction={"row"} spacing={1} mt={1} className={styles.reservationContent}>
+      <Stack direction={"row"} spacing={1} mt={1} className={`${styles.reservationContent} content-with-header`}>
 
         <div className={styles.reservationLeft}>
           <Typography variant='h4' gutterBottom className={styles.reservationTitle}>Camping {location.locationTitle1}</Typography>
@@ -130,7 +140,6 @@ const Description: NextPage = () => {
                 mt={3}
                 mb={2}
                 className="basic-costs">
-
                 <Typography variant='h6' className='bold nanum-title'>Good to know</Typography>
                 <Typography variant='h5' className='bold mt0'>Location Type</Typography>
 
@@ -163,7 +172,7 @@ const Description: NextPage = () => {
 
         <div className={styles.reservationRight}>
 
-          <Typography variant='h4' gutterBottom className={styles.reservationTitle}>Price tag</Typography>
+          <Typography variant='h4' gutterBottom className={styles.reservationTitle}>{t('Price Tag')}</Typography>
           <div className={styles.locationDetailsRight}>
 
             <div className={styles.datesAndTotal}>
@@ -452,6 +461,15 @@ const Description: NextPage = () => {
 }
 
 export default Description
+
+export async function getStaticProps({ locale }) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ['common'])),
+      // Will be passed to the page component as props
+    },
+  };
+}
 
 // Router.push({
 //   pathname: '/about',
