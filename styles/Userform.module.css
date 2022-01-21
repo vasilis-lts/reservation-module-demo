@@ -40,7 +40,7 @@
 @media (max-width: 767px) {
   .Userform{
     align-items: flex-start;
-    padding-top: 20px;
+    padding-top: 90px;
   }
   .formActions{
     flex-direction: column;

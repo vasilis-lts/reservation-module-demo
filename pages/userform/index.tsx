@@ -4,8 +4,15 @@ import { Grid, TextField, Button, Typography, Stack } from "@mui/material";
 import MuiPhoneNumber from "material-ui-phone-number";
 import { useState } from 'react';
 import { useRouter } from 'next/router';
+import Head from 'next/head';
+import CNav from '../../components/Nav/Nav';
+
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { useTranslation } from 'next-i18next';
 
 export default function UserForm() {
+  const { t } = useTranslation('common');
+
   const router = useRouter();
 
   const [DefaultValues, setDefaultValues] = useState({
@@ -29,6 +36,14 @@ export default function UserForm() {
 
   return (
     <div id="UserForm" className={styles.Userform}>
+      <Head>
+        <title>Contact Details</title>
+        <meta name="description" content="Reservation module" />
+        <link rel="icon" href="/favicon.ico" />
+        <link rel="stylesheet" href="/static/CamperLinkNav.module.css" />
+      </Head>
+      <CNav />
+
       <div className={styles.formOuter}>
         <Stack
           direction="column"
@@ -58,7 +73,7 @@ export default function UserForm() {
                 direction="column"
               >
 
-                <label htmlFor="name">Full name*</label>
+                <label htmlFor="name">{t('Full Name')}*</label>
                 <TextField
                   name="name"
                   // placeholder="What is your name?"
@@ -118,4 +133,13 @@ export default function UserForm() {
       </div>
     </div>
   )
+}
+
+export async function getStaticProps({ locale }) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ['common'])),
+      // Will be passed to the page component as props
+    },
+  };
 }

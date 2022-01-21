@@ -82,12 +82,6 @@ const Description: NextPage = () => {
     if (desc) { desc.innerHTML = location.description; }
 
     setArrivalDate(new Date());
-    console.log(router);
-    setTimeout(() => {
-      if (i18n) {
-        i18n.changeLanguage('en');
-      }
-    }, 3000);
   }, []);
 
   useEffect(() => {
@@ -111,6 +105,7 @@ const Description: NextPage = () => {
         <meta name="description" content="Reservation module" />
         <link rel="icon" href="/favicon.ico" />
         <link rel="stylesheet" href="/static/CamperLinkNav.module.css" />
+        <link rel="stylesheet" href="/styles/Reservation.module.css" />
       </Head>
       <CNav />
 
@@ -459,7 +454,6 @@ const Description: NextPage = () => {
     </div >
   )
 }
-
 export default Description
 
 export async function getStaticProps({ locale }) {
@@ -470,10 +464,3 @@ export async function getStaticProps({ locale }) {
     },
   };
 }
-
-// Router.push({
-//   pathname: '/about',
-//   query: { name: 'Sajad' },
-// })
-
-// < Link href = {{ pathname: '/about', query: { name: 'Sajad' } }}>

@@ -1,3 +1,6 @@
 {
-  "Price Tag": "Price Tag"
+  "Price Tag": "Price Tag",
+  "Full Name": "Full Name",
+  "Reservation Information": "Reservation Information",
+  "QrCodeTitle": "Scan the QR code to book your spot"
 }

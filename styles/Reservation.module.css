@@ -46,7 +46,7 @@
 }
 
 .reservationFooterMobile{
-    display: none;
+    display: none!important;
     bottom: 0px !important;
     left: 0px !important;
     position: fixed !important;
@@ -89,7 +89,7 @@
     overflow: initial;
   }
   .reservationFooterMobile{
-    display: flex;
+    display: flex!important;
     margin-left: 0!important;
   }
   .reservationRight{

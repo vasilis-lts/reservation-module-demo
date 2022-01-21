@@ -1,3 +1,6 @@
 {
-  "Price Tag": "Prijskaartje"
+  "Price Tag": "Prijskaartje",
+  "Full Name": "Voor-en achternaam",
+  "Reservation Information": "Reserveringsinformatie",
+  "QrCodeTitle": "Scan QR code om jouw plekje te bemachtigen"
 }

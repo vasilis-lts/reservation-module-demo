@@ -1,13 +1,24 @@
 import { Box, Button, Grid, Stack, Typography } from '@mui/material';
+import Head from 'next/head';
+import CNav from '../../components/Nav/Nav';
 import styles from '../../styles/Pricing-Overview.module.css';
-
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { useTranslation } from 'next-i18next';
 
 export default function PricingOverview() {
+  const { t } = useTranslation('common');
 
   return (
     <div id="pricingOverview" className={styles.pricingOverview}>
+      <Head>
+        <title>Pricing Overview</title>
+        <meta name="description" content="Reservation module" />
+        <link rel="icon" href="/favicon.ico" />
+        <link rel="stylesheet" href="/static/CamperLinkNav.module.css" />
+      </Head>
+      <CNav />
 
-      <Typography variant='h5' className={styles.pricingOverviewTitle}>Reserveringsinformatie</Typography>
+      <Typography variant='h5' className={styles.pricingOverviewTitle}>{t("Reservation Information")}</Typography>
 
       <div className={styles.pricingOverviewContent}>
 
@@ -217,4 +228,13 @@ export default function PricingOverview() {
 
     </div>
   )
+}
+
+export async function getStaticProps({ locale }) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ['common'])),
+      // Will be passed to the page component as props
+    },
+  };
 }
