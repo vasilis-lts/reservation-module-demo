@@ -11,14 +11,14 @@ export default function PricingOverview() {
   return (
     <div id="pricingOverview" className={styles.pricingOverview}>
       <Head>
-        <title>Pricing Overview</title>
+        <title>Confirmation of Reservation</title>
         <meta name="description" content="Reservation module" />
         <link rel="icon" href="/favicon.ico" />
         <link rel="stylesheet" href="/static/CamperLinkNav.module.css" />
       </Head>
       <CNav />
 
-      <Typography variant='h5' className={styles.pricingOverviewTitle}>{t("Reservation Information")}</Typography>
+      <Typography variant='h5' className={styles.pricingOverviewTitle}>{t("Reservation Confirmation")}</Typography>
 
       <div className={styles.pricingOverviewContent}>
 
