@@ -29,6 +29,16 @@
   font-weight: 700;
 }
 
+.reservationBtnActions{
+  justify-content: flex-end;
+  display: flex;
+}
+
+.reservationBtnActions button{
+  margin-left: 5px;
+  min-width: 200px;
+}
+
 @media (max-width: 1024px) {
   .pricingOverview{
     margin: 0;
@@ -48,6 +58,18 @@
     margin-left: 0;
     width: 100%;
   }
+
+  .reservationBtnActions{
+    justify-content: initial;
+    display: flex;
+    flex-direction: column;
+  }
+
+.reservationBtnActions button{
+  margin-top: 10px;
+  margin-left: 0;
+  min-width: 100%;
+}
 
 }
 

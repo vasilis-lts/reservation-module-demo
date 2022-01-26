@@ -1,12 +1,38 @@
+import React from 'react';
 import { Box, Button, Grid, Stack, Typography } from '@mui/material';
 import Head from 'next/head';
 import CNav from '../../components/Nav/Nav';
 import styles from '../../styles/Pricing-Overview.module.css';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useTranslation } from 'next-i18next';
+import { useRouter } from 'next/router';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert, { AlertProps } from '@mui/material/Alert';
+
+const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
+  props,
+  ref,
+) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 export default function PricingOverview() {
   const { t } = useTranslation('common');
+  const router = useRouter();
+
+  const [open, setOpen] = React.useState(false);
+
+  const handleClick = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
 
   return (
     <div id="pricingOverview" className={styles.pricingOverview}>
@@ -86,6 +112,7 @@ export default function PricingOverview() {
               // onClick={() => router.push("/pricing-overview")}
               color={'success'}
               variant='contained'
+              size='large'
               fullWidth
             >Navigeer naar locatie</Button>
           </Stack>
@@ -164,7 +191,7 @@ export default function PricingOverview() {
                 <Typography variant='subtitle1' className=''></Typography>
               </Grid>
               <Grid mt={2} item xs={3}>
-                <Typography variant='subtitle1' className='bold'>Subtotaal exclusief btw</Typography>
+                <Typography variant='subtitle1' className='bold'>Subtotaal (exclusief btw)</Typography>
               </Grid>
               <Grid mt={2} item xs={3}>
                 <Typography variant='subtitle1' className='bold'>€ 13,30</Typography>
@@ -196,35 +223,54 @@ export default function PricingOverview() {
                 <Typography variant='subtitle1' className='bold'>€ 14,50</Typography>
               </Grid>
 
-              <Grid mt={2} item xs={1}>
+              {/* <Grid mt={2} item xs={1}>
                 <Typography variant='subtitle1'></Typography>
               </Grid>
               <Grid mt={2} item xs={5}>
                 <Typography variant='subtitle1' className=''></Typography>
+              </Grid> */}
+              <Grid mt={2} item sm={6} xs={12}>
+
               </Grid>
-              <Grid mt={2} item xs={3}>
-                {/* <Button
-                  // onClick={() => router.push("/pricing-overview")}
-                  color={'success'}
-                  variant='contained'
-                >Opslaan</Button> */}
+              <Grid mt={2} sm={6} item xs={12}>
+
               </Grid>
-              <Grid mt={2} item xs={3}>
-                <Button
-                  // onClick={() => router.push("/pricing-overview")}
-                  style={{ marginLeft: -5 }}
-                  color={'warning'}
-                >Annulleren</Button>
-              </Grid>
+
 
 
             </Grid>
+            <div className={styles.reservationBtnActions}>
+              <Button
+                size='large'
+                onClick={() => router.push("/reservation?locationId=1")}
+                variant='contained'
+                style={{ backgroundColor: "#ccc", color: "#222" }}
+              >Cancel, Go back</Button>
+              <Button
+                onClick={handleClick}
+                size='large'
+                color={'success'}
+                variant='contained'
+              >Confirm & Pay</Button>
+            </div>
 
           </Stack>
 
         </div>
 
       </div>
+
+      <Snackbar
+        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+        open={open}
+        autoHideDuration={6000}
+        style={{ maxWidth: 500 }}
+        onClose={handleClose}
+        key={'top' + 'right'}>
+        <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+          Jouw aanvraag is succesvol verstuurd, je ontvangt een email wanneer jouw reservering definitief is goedgekeurd door de [campsitename] op [mail adres].
+        </Alert>
+      </Snackbar>
 
     </div>
   )
