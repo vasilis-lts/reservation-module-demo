@@ -223,22 +223,8 @@ export default function PricingOverview() {
                 <Typography variant='subtitle1' className='bold'>€ 14,50</Typography>
               </Grid>
 
-              {/* <Grid mt={2} item xs={1}>
-                <Typography variant='subtitle1'></Typography>
-              </Grid>
-              <Grid mt={2} item xs={5}>
-                <Typography variant='subtitle1' className=''></Typography>
-              </Grid> */}
-              <Grid mt={2} item sm={6} xs={12}>
-
-              </Grid>
-              <Grid mt={2} sm={6} item xs={12}>
-
-              </Grid>
-
-
-
             </Grid>
+
             <div className={styles.reservationBtnActions}>
               <Button
                 size='large'
