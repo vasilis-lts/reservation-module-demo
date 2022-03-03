@@ -20,11 +20,19 @@ const theme = createTheme({
   }
 });
 
+// amplify settings
+import Amplify from 'aws-amplify';
+import awsconfigDev from '../aws-exports';
+import { AuthProvider } from '../context/AuthContext';
+Amplify.configure(awsconfigDev);
+
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <ThemeProvider theme={theme}>
-      <Component {...pageProps} />
-    </ThemeProvider>
+    <AuthProvider>
+      <ThemeProvider theme={theme}>
+        <Component {...pageProps} />
+      </ThemeProvider>
+    </AuthProvider>
   )
 }
 
